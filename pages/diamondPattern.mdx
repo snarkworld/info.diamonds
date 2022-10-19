@@ -75,11 +75,11 @@ Once deployed more facets can be added using the upgrade function. In order to a
 
 The `diamondCut` function updates any number of functions from any number of facets in a single transaction preventing data corruption which could occur in upgrades over multiple transactions. A diamond contains a mapping of function selectors to facet addresses, functions are added/replaced/removed by modifying this mapping. 
 
-`**diamondCut` is specified for the purpose of interoperability. Diamond tools, software and user-interfaces should expect and use the standard `diamondCut` function.**
+`diamondCut` is specified for the purpose of interoperability. Diamond tools, software and user-interfaces should expect and use the standard `diamondCut` function.**
 
 - `DiamondCut`event records all functions that are added, replaced or removed on a diamond providing a historical record of all upgrades on a diamond.
-- `**diamondCut`** function is used to add/replace/remove any number of facets and functions to a diamond in a single transaction. Executing an upgrade in a single transaction is important to prevent the Diamond from an inconsistent state at any time.
-- The **`diamondCut` function has the ability to execute an external function with `delegatecall` during an upgrade. This is to initialize state variables and otherwise make any changes needed for an upgrade.
+- `diamondCut` function is used to add/replace/remove any number of facets and functions to a diamond in a single transaction. Executing an upgrade in a single transaction is important to prevent the Diamond from an inconsistent state at any time.
+- The `diamondCut` function has the ability to execute an external function with `delegatecall` during an upgrade. This is to initialize state variables and otherwise make any changes needed for an upgrade.
 
 ## **Diamond Loupe**
 
