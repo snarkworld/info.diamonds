@@ -1,7 +1,7 @@
 {
   "name": "info.diamonds",
   "version": "1.0.0",
-  "description": "",
+  "description": "Expanding encyclopedia to discover, design, and deploy Diamond smart contracts.",
   "main": "index.js",
   "scripts": {
     "dev": "next",
