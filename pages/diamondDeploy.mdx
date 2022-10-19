@@ -1,6 +1,6 @@
-# Diamond Deployment
+# **Diamond Deployment**
 
-## Diamond Requirements
+## **Diamond Requirements**
 
 **A diamond must implement the following:**
 1. A diamond contains a fallback function and can include immutable functions defined within it.
@@ -24,7 +24,7 @@
 
 The diamond address is the address that users interact with. The diamond address does not change. Only facet addresses can change by using the `diamondCut` function, or other function.
 
-## Deployment Workflow
+## **Deployment Workflow**
 
 **1) Deploy DiamondInit**
     - DiamondInit handles initiating state variables on deploy or upgrade
@@ -33,7 +33,7 @@ The diamond address is the address that users interact with. The diamond address
         - ***DiamondCut***
         - ***DiamondLoupe***
         
-        ```solidity
+        ```js
         const facetCuts = []
         facetCuts.push({
                facetAddress: facet.address,
@@ -45,7 +45,7 @@ The diamond address is the address that users interact with. The diamond address
         - ‘**facetCuts**’ variable is FacetCut[] that contains functions added during Diamond deployment
 **3) Create function call for *DiamondInit*, used for deploy and upgrade**
     
-    ```solidity
+    ```js
     let functionCall = diamondInit.interface.encodeFunctionData(
            ‘init’
             )
@@ -53,7 +53,7 @@ The diamond address is the address that users interact with. The diamond address
     
 **4) Set arguments for Diamond constructor**
     
-    ```solidity
+    ```js
     const diamondArgs = {
              owner: ContractOwner.address
              init:init 
@@ -63,6 +63,6 @@ The diamond address is the address that users interact with. The diamond address
     
 **5) Deploy**
     
-    ```solidity
+    ```js
     Diamond.deploy(facetCuts, diamondArgs)
     ```
