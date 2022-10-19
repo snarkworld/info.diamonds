@@ -4,11 +4,7 @@
 ### **EIP 2535: Diamonds, Multi-Facet Proxy**
 Welcome to Info.Diamonds, the unofficial documentation site for Diamonds, the Multi-Facet Proxy (EIP 2535).
 
-Diamonds are a new type of smart contract that allows users to deploy "facets", or individual contracts, on different blockchains. This makes it possible to use Diamonds as a cross-chain bridge or as a way to develop hybrid applications that combine the best features of multiple blockchains.
 
-In this guide, you'll learn everything you need to know about Diamonds, from how they work to how you can use them in your own projects. We'll also provide examples of some of the most popular use cases for Diamonds.
-
-So let's get started!
 
 # **Resources**
 
