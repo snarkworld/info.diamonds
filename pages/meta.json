@@ -3,5 +3,7 @@
   "proxies": "Proxies",
   "diamondPattern": "Diamond Pattern",
   "diamondStorage": "Storage",
-  "diamondDeploy": "Diamond Deployment"
+  "diamondDeploy": "Diamond Deployment",
+  "diamondSecurity": "Security Considerations"
+
 }
