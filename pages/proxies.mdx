@@ -19,13 +19,12 @@
         - Logic contract address is defined in the proxy
             - Proxy can redefine logic contract addresses, allowing logic to be changed w/o impacting the underlying data
                 - *managed via governance or controlled via a multi-sig wallet*
-
-![Nextra](../public/proxy2.png)
 ## Multi-Proxy Pattern
+![Nextra](../public/proxy2.png)
+
 
 <aside>
-💡 Proxy pattern allows upgradability for smart contracts, the drawback is the entire logic contract must be replaced to add/replace/remove functions from proxy contract.
-
+Proxy pattern allows upgradability for smart contracts, the drawback is the entire logic contract must be replaced to add/replace/remove functions from proxy contract.
 </aside>
 
 ## Multi-Facet Proxy (Diamond Pattern)
