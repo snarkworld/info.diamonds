@@ -62,15 +62,14 @@ The facets of a diamond can be organized like a file system:
 Once deployed more facets can be added using the upgrade function. In order to avoid corrupting state variables during an upgrade, add new state variables to the end of an AppStorage struct or use Diamond Storage.
 
 <aside>
-💡 *A **Single Cut Diamond** can be created by adding all facets a diamond will ever have in the constructor of the diamond and leaving out any kind of upgrade function.*
+💡 A Single Cut Diamond can be created by adding all facets a diamond will ever have in the constructor of the diamond and leaving out any kind of upgrade function.
 
 </aside>
 
 ## **Diamond Cut**
 
 <aside>
-💡 **A `DiamondCut` event must be emitted any time external functions are added, replaced, or removed.**
-
+💡 A `DiamondCut` event must be emitted any time external functions are added, replaced, or removed.
 </aside>
 
 The `diamondCut` function updates any number of functions from any number of facets in a single transaction preventing data corruption which could occur in upgrades over multiple transactions. A diamond contains a mapping of function selectors to facet addresses, functions are added/replaced/removed by modifying this mapping. 
@@ -84,7 +83,7 @@ The `diamondCut` function updates any number of functions from any number of f
 ## **Diamond Loupe**
 
 > A loupe is a special magnifying glass for looking at and inspecting diamonds.
-> 
+
 
 The verified source code of a diamond does not include what functions it has so a different mechanism is needed. A diamond has four standard functions called the loupe functions that are used to show what functions a diamond has. The loupe functions can be used for many things including:
 
