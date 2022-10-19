@@ -2,7 +2,7 @@
 
 ## **Diamonds**
 ### **EIP 2535: Diamonds, Multi-Facet Proxy**
-Welcome to Info.Diamonds, the unofficial documentation site for Diamonds, the Multi-Facet Proxy (EIP 2535).
+Welcome to info.diamonds, an unofficial documentation site for Diamonds, the Multi-Facet Proxy (EIP 2535).
 
 
 
