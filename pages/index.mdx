@@ -1,11 +1,36 @@
 import Bleed from 'nextra-theme-docs/bleed'
 
-# Nextra
+# Diamonds
 
-**Nextra** is a [Next.js](https://nextjs.org) based static site generator.
+# EIP 2535: Diamonds, Multi-Facet Proxy
 
-It supports Markdown and React components ([MDX](/features/mdx)), automatically generated [sidebar and anchor links](/get-started#sidebar-and-anchor-links), file-system based routing, built-in syntax highlighting, image optimization, custom layouts, i18n, and all the features you love about Next.js.
+## Why use a diamond?
 
-Here's what you will get in 1 minute:
+1. You exceed the max size of a contract and you have related functionality that needs to access and use the same storage variables.
+2. Diamonds can be large but still modular because they are compartmented with facets.
+3. Multiple small contracts calling each other increases complexity. 
+4. You need or want greater control over when and what functions exist.
+5. Your development is incremental and you want your contracts to grow with your application.
 
-<Bleed>![Nextra Example](../public/demo.png)</Bleed>
+## What is a diamond?
+
+- A diamond is a smart contract, the address of the Diamond is used for outside software to interact with it.
+- Internally a diamond uses a set of contracts called facets for its external functions.
+- All state variable storage data is stored in a diamond, not in its facets.
+- A facet is a contract whose external functions are added to a diamond to give the diamond functionality.
+- The external functions of facets can directly read and write data stored in a diamond.
+- A diamond is implemented as a fallback function it uses `delegatecall` to route external function calls to facets.
+
+<aside>
+💡 *Diamond pattern divides functionality and storage into separate contracts.*
+
+</aside>
+
+## Diamond Benefits
+
+- Diamonds overcome the maximum contract size limit of 24KB.
+- Facets can be deployed once and reused by any number of diamonds.
+- Optimized to save gas because state variables are shared between facets.
+- Diamonds can be upgradeable or immutable.
+- Diamonds make it possible to add/replace/remove functions w/o needing to redeploy.
+

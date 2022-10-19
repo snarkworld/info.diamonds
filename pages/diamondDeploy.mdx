@@ -1,0 +1,68 @@
+# Diamond Deployment
+
+## Diamond Requirements
+
+**A diamond must implement the following:**
+1. A diamond contains a fallback function and can include immutable functions defined within it.
+2. A diamond associates function selectors with facets.
+3. When an external function is called on a diamond the diamond’s fallback function is executed. The fallback function finds the facet and function match and executes the function using `delegatecall`. 
+    *a. If there is no facet for the function an optional default function can be executed. <br/>*
+    *b. If there’s no facet and no default function, the execution reverts.*
+4. `DiamondCut` event is emitted to record when Functions are added/replaced/removed.
+5. A diamond implements the DiamondLoupe interface.
+6. All immutable functions must be emitted in the `DiamondCut` event as new functions added. Loupe functions must return information about immutable functions if they exist. The facet address for an immutable function is the diamond’s address. 
+7. Any attempt to delete or replace an immutable function must revert.
+
+### A diamond may implement the following:
+
+1. [EIP-165](https://eips.ethereum.org/EIPS/eip-165)’s `supportsInterface`. 
+2. If a diamond has the `diamondCut` function then the interface ID used for it is `IDiamondCut.diamondCut.selector`. 
+3. The interface ID used for the diamond loupe interface is 
+`IDiamondLoupe.facets.selector ^ `
+`IDiamondLoupe.facetFunctionSelectors.selector ^ IDiamondLoupe.facetAddresses.selector ^ `
+`IDiamondLoupe.facetAddress.selector`
+
+The diamond address is the address that users interact with. The diamond address does not change. Only facet addresses can change by using the `diamondCut` function, or other function.
+
+## Deployment Workflow
+
+**1) Deploy DiamondInit**
+    - DiamondInit handles initiating state variables on deploy or upgrade
+**2) Deploy facets and set the ‘facetCuts’**
+    - **Facets**
+        - ***DiamondCut***
+        - ***DiamondLoupe***
+        
+        ```solidity
+        const facetCuts = []
+        facetCuts.push({
+               facetAddress: facet.address,
+               action: FacetCutAction.Add,
+               functionSelectors: getSelectors(facet)
+              })
+        ```
+        
+        - ‘**facetCuts**’ variable is FacetCut[] that contains functions added during Diamond deployment
+**3) Create function call for *DiamondInit*, used for deploy and upgrade**
+    
+    ```solidity
+    let functionCall = diamondInit.interface.encodeFunctionData(
+           ‘init’
+            )
+    ```
+    
+**4) Set arguments for Diamond constructor**
+    
+    ```solidity
+    const diamondArgs = {
+             owner: ContractOwner.address
+             init:init 
+    				 calldata: functionCall
+        }
+    ```
+    
+**5) Deploy**
+    
+    ```solidity
+    Diamond.deploy(facetCuts, diamondArgs)
+    ```

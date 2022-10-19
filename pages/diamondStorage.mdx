@@ -1,0 +1,63 @@
+# **Storage Layouts**
+
+## **Solidity Storage**
+
+Stores data in contracts using a numeric address space. 
+
+- The first state variable is stored at position 0
+- The next state variable is stored at position 1
+- The next state variable is stored at position 2, etc.
+
+### Solidity Default Layout
+
+- A **function signature** is the **name of a function** and its **parameter types**.
+    - Ex. `myfunction(uint256)`
+    - *A limitation is that two external functions with the same function signature can’t be added to the same diamond at the same time*
+- **Facets** of a diamond **share** the same storage **address space** because they have the **same diamond** and **facets only read and write state variables in diamonds**
+    - ***Problem***:
+        - ***Diamond has two facets***
+            - **FacetA** and **FacetB**
+            - **FacetA** **declares** state variables **‘uint first;’** and **‘bytes32 second;’**
+            - **FacetB** **declares** state variables **‘uint first;’** and **‘string name;’.**
+        - **Both facets are storing `uint first` at position 0, both facets read and write that variable without problem.**
+        - **Both facets are writing and reading different variables at position 1 — ‘bytes32 second’ and ‘string name’.**
+    
+    <aside>
+    💡 ***Facets of the same diamond need to declare the same state variables in the same order if they are reading and writing to the same locations.***
+    
+    </aside>
+    
+
+## **Diamond Storage**
+
+<aside>
+💡 ***Facets of the same diamond do not need to declare the same state variables in the same order if they are storing data at different locations.***
+
+</aside>
+
+- Unlike Solidity storage layout, Diamond storage allows you to choose the address space
+- Facets specify different locations to start storing data, preventing different facets with different state variables from clashing storage locations.
+- This is what **Diamond Storage** does -
+    - **Hash of unique string gets random storage position to store a struct**
+        - struct contains all of the state variables
+        - ‘unique string’ acts as a namespace for particular functionality
+    - ***example*:** ***ERC721Facet** implementation*
+        - Facet stores a struct called ‘ERC721Storage’ at position *‘keccak256("com.myproject.erc721");’.*
+        - struct could contain all the state variables related to ERC721
+            - ERC721Facet reads/writes and nothing else
+
+### **Advantages**
+
+- ERC721Facet is reusable.
+- ERC721Facet not cluttered with declarations of variables it does not use
+
+## **App Storage**
+
+- **AppStorage enforces a naming/access convention *makes code more readable and prevents name clashes* of state variables.**
+    - The AppStorage struct contains state variables that will be shared between facets.
+        - To use it a facet imports the AppStorage struct and declares `AppStorage internal s;` as the Facets first state variable
+        - The facet then accesses all state variables in functions via the struct like this: `s.myFirstVariable`, `s.mySecondVariable`
+- *‘AppStorage internal s;’* should be declared as the first state variable in all facets using it
+    - position 0 in the storage address space allowing storage data to line up between facets
+- Add more state variables to the end of the AppStorage struct or use Diamond Storage to avoid address clashing
+    - AppStorage can be used with Diamond Storage in the same facet
