@@ -1,4 +1,4 @@
-# 💎 🅸🅽🅵🅾.🅳🅸🅰🅼🅾🅽🅳🆂 💎
+# 💎 info.diamonds 💎
 
 ## **Diamonds**
 ### **EIP 2535: Diamonds, Multi-Facet Proxy**
