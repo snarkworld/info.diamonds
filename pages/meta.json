@@ -1,9 +1,10 @@
 {
   "index": "Diamond Overview",
-  "proxies": "Proxies",
+  "diamondProxy": "Proxies",
   "diamondPattern": "Diamond Pattern",
   "diamondStorage": "Storage",
   "diamondDeploy": "Diamond Deployment",
   "diamondSecurity": "Security Considerations",
-  "Resources": "Resources"
+  "diamondProjects": "Projects Using Diamonds",
+  "diamondResources": "Resources"
 }
