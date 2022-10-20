@@ -1,39 +1,52 @@
 # **Proxies**
-<aside>
-**Diamond pattern** is similar to **multi-proxy pattern** which deploys **proxy and logic contracts.**
-</aside>
+<br/>
 
-![Nextra](../public/proxy1.png)
-UUPS proxy Universal Upgradeable Proxy Standard
-## **Transparent Proxy pattern**
+> **Diamonds** follow the proxy pattern which deploys seperate **proxy and logic contracts.**
 
+## **Proxy Overview**
 - Proxy contract is what the user interacts with and holds the data
 - Proxies are immutable but contain a [fallback function](https://docs.soliditylang.org/en/v0.8.9/contracts.html#fallback-function)
 - The fallback function catches function calls and uses `delegatecall` to forward to logic contract
 - `delegatecall` allows the proxy contract to use functions on the logic contract
-- When an external function is called on a diamond, the fallback function is executed
-- The fallback function finds facet to call from function selector which provides first 4 bytes of call data 
-- The function is then executed from the facet using `delegatecall`
-- Diamond’s fallback function & `delegatecall`enable a diamond to execute a facet’s external functions.
-- `msg.sender`&`msg.value`values do not change, only the diamond’s storage is read and written to.
 - Logic contract stores functions, defined separate from data
-- Logic contract address is defined in the proxy
-- Proxy can redefine logic contract addresses, changing logic w/o impacting the underlying data
-- Logic changes can be managed via governance or controlled via a multi-sig wallet
 
-## **UUPS Proxy**
-![Nextra](../public/proxy2.png)
 <br/>
 
-Proxy pattern allows upgradability for smart contracts, the drawback is the entire logic contract must be replaced to add/replace/remove functions from proxy contract.
 
+![Nextra](../public/proxy1.png)
+
+<br/>
+Instead of interacting with your smart contract directly, 
+users interact with a proxy that holds the state and delegates execution to a logic contract for functionality.
+Upgradeability is achieved by changing the reference to the logic contract in the proxy contract, 
+so new functionality is used for executing all calls.
+
+## **Transparent Proxy / Inline Proxy**
 <br/>
 
 ![Nextra](../public/proxy3.png)
 
+- Upgrade is handled by proxy contract.
+- Deployment is more expensive.
+- It makes things easy to maintain.
+
+## **UUPS Proxy**
+
+<br/>
+
+![Nextra](../public/proxy4.avif)
+
+
+<br/>
+
+- uses the same delegate call pattern
+- places upgrade logic in the logic contract instead of the proxy itself
+- all functions defined on the logic contract
+- the proxy is much smaller in size, making deployments cheaper
 
 
 
-## Multi-Facet Proxy (Diamond Pattern)
+
+## **Multi-Facet Proxy (Diamond Pattern)**
 
 Multi-Facet Proxies provide granular control of functionality by allowing the Proxy to add/remove/replace functions without impacting other logic.
