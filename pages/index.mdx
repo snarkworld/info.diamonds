@@ -4,25 +4,20 @@
 
 ## **Why use a diamond?**
 
-1. You exceed the max size of a contract and you have related functionality that needs to access and use the same storage variables.
-2. Diamonds can be large but still modular because they are compartmented with facets.
-3. Multiple small contracts calling each other increases complexity. 
-4. You need or want greater control over when and what functions exist.
-5. Your development is incremental and you want your contracts to grow with your application.
+- You exceed the max size of a contract and functionality that needs to access same storage variables.
+- Diamonds can be large but still modular because they are compartmented with facets.
+- You want to control complexity of multiple small contracts.
+- You need or want greater control over when and what functions exist.
+- Your development is incremental and you want your contracts to grow with your application.
 
 ## **What is a diamond?**
 
-- A diamond is a smart contract, the address of the Diamond is used for outside software to interact with it.
+- A diamond is a smart contract, the address of the Diamond is used for software to interact with it.
 - Internally a diamond uses a set of contracts called facets for its external functions.
 - All state variable storage data is stored in a diamond, not in its facets.
-- A facet is a contract whose external functions are added to a diamond to give the diamond functionality.
+- A facet is a contract whose external functions are added to a diamond for functionality.
 - The external functions of facets can directly read and write data stored in a diamond.
-- A diamond is implemented as a fallback function it uses `delegatecall` to route external function calls to facets.
-
-<aside>
-💡 *Diamond pattern divides functionality and storage into separate contracts.*
-
-</aside>
+- A diamond implements a fallback function using `delegatecall` to route function calls to facets.
 
 ## **Diamond Benefits**
 
