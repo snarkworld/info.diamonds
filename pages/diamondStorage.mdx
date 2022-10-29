@@ -1,6 +1,8 @@
+import Callout from 'nextra-theme-docs/callout'
+
 # **Storage Layouts**
 
-## **Solidity Storage**
+## **Solidity Storage (Default)**
 
 Stores data in contracts using a numeric address space. 
 
@@ -9,31 +11,27 @@ Stores data in contracts using a numeric address space.
 - The next state variable is stored at position 2, etc.
 
 ### **Solidity Default Layout**
+Facets of a diamond share the same storage address space because they have the same diamond and facets only read and write state variables in diamonds.
+Facets of the same diamond need to declare the same state variables in the same order if they are reading and writing to the same locations.
 
-- A **function signature** is the **name of a function** and its **parameter types**.
-    - Ex. `myfunction(uint256)`
-    - *A limitation is that two external functions with the same function signature can’t be added to the same diamond at the same time*
-- **Facets** of a diamond **share** the same storage **address space** because they have the **same diamond** and **facets only read and write state variables in diamonds**
     - ***Problem***:
-        - ***Diamond has two facets***
-            - **FacetA** and **FacetB**
-            - **FacetA** **declares** state variables **‘uint first;’** and **‘bytes32 second;’**
-            - **FacetB** **declares** state variables **‘uint first;’** and **‘string name;’.**
-        - **Both facets are storing `uint first` at position 0, both facets read and write that variable without problem.**
-        - **Both facets are writing and reading different variables at position 1 — ‘bytes32 second’ and ‘string name’.**
+        - Diamond has two facets
+            - FacetA and FacetB
+            - FacetA declares state variables ‘uint first;’ and ‘bytes32 second;’
+            - FacetB declares state variables ‘uint first;’ and ‘string name;’.
+        - Both facets are storing `uint first` at position 0, both facets read and write that variable without problem.
+        - Both facets are writing and reading different variables at position 1 — ‘bytes32 second’ and ‘string name’.
     
-    <aside>
-    💡 ***Facets of the same diamond need to declare the same state variables in the same order if they are reading and writing to the same locations.***
-    
-    </aside>
-    
+<Callout>
+    External functions with the same function signature can’t be added to the same diamond.
+</Callout>
 
 ## **Diamond Storage**
 
-<aside>
-💡 ***Facets of the same diamond do not need to declare the same state variables in the same order if they are storing data at different locations.***
+A function signature is the name of a function and its parameter types.
 
-</aside>
+    > Example:
+    > `myfunction(uint256)`
 
 - Unlike Solidity storage layout, Diamond storage allows you to choose the address space
 - Facets specify different locations to start storing data, preventing different facets with different state variables from clashing storage locations.

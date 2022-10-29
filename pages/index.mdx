@@ -1,16 +1,12 @@
 # 💎 Diamonds 💎 
 
-### **EIP 2535: Diamonds, Multi-Facet Proxy**
+### [**EIP 2535: Diamonds, Multi-Facet Proxy**](https://eips.ethereum.org/EIPS/eip-2535)
 
-## **Why use a diamond?**
+## **Overview**
+In Feb ‘20 Nick Mudge created the Diamond EIP, it was finalized in Oct ‘22. 
+This proposal standardizes diamonds, which are modular smart contract systems that can be upgraded/extended after deployment, and have virtually no size limit. 
 
-- You exceed the max size of a contract and functionality that needs to access same storage variables.
-- Diamonds can be large but still modular because they are compartmented with facets.
-- You want to control complexity of multiple small contracts.
-- You need or want greater control over when and what functions exist.
-- Your development is incremental and you want your contracts to grow with your application.
-
-## **What is a diamond?**
+## **What?**
 
 - A diamond is a smart contract, the address of the Diamond is used for software to interact with it.
 - Internally a diamond uses a set of contracts called facets for its external functions.
@@ -19,11 +15,17 @@
 - The external functions of facets can directly read and write data stored in a diamond.
 - A diamond implements a fallback function using `delegatecall` to route function calls to facets.
 
-## **Diamond Benefits**
+## **When?**
 
-- Diamonds overcome the maximum contract size limit of 24KB.
-- Facets can be deployed once and reused by any number of diamonds.
-- Optimized to save gas because state variables are shared between facets.
+- You exceed the max size of a contract.
+- You want to control complexity of multiple small contracts.
+- You need or want greater control over when and what functions exist.
+- Your development is incremental and your contracts will grow with your application.
+
+## **Why?**
+
 - Diamonds can be upgradeable or immutable.
+- Diamonds overcome the maximum contract size limit of 24KB.
+- Diamonds can be large but modular because they are compartmented with facets.
+- Diamonds are optimized to save gas, state variables are shared between facets.
 - Diamonds make it possible to add/replace/remove functions w/o needing to redeploy.
-

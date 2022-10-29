@@ -1,9 +1,20 @@
-# **Proxies**
+import Callout from 'nextra-theme-docs/callout'
+
+
+# **Proxy Types**
 <br/>
 
-> **Diamonds** follow the proxy pattern which deploys seperate **proxy and logic contracts.**
-
 ## **Proxy Overview**
+In simplest form, a proxy contract is a contract which delegates calls to another contract. 
+Users go through the proxy, and the proxy knows which contract to delegate the call to (the target).
+A proxy pattern introduces upgradability for contracts by allowing users to change the target address inside the proxy contract.
+
+<br/>
+
+![Nextra](../public/proxy1.png)
+
+<br/>
+
 - Proxy contract is what the user interacts with and holds the data
 - Proxies are immutable but contain a [fallback function](https://docs.soliditylang.org/en/v0.8.9/contracts.html#fallback-function)
 - The fallback function catches function calls and uses `delegatecall` to forward to logic contract
@@ -13,40 +24,60 @@
 <br/>
 
 
-![Nextra](../public/proxy1.png)
+## **Transparent Proxy**
 
-<br/>
 Instead of interacting with your smart contract directly, 
 users interact with a proxy that holds the state and delegates execution to a logic contract for functionality.
-Upgradeability is achieved by changing the reference to the logic contract in the proxy contract, 
-so new functionality is used for executing all calls.
+Transparent proxies are implemented using [ERC1967Proxy](https://docs.openzeppelin.com/contracts/4.x/api/proxy#ERC1967Proxy).
 
-## **Transparent Proxy / Inline Proxy**
+***Transparent proxies include the upgrade and admin logic in the proxy itself.***
+
 <br/>
 
 ![Nextra](../public/proxy3.png)
 
+<br/>
+
+<Callout emoji="⚠️">
+Upgradeability is achieved by changing the reference to the logic contract in the proxy contract, so new functionality is used for executing all calls.
+</Callout>
+
+
+#### Summary
 - Upgrade is handled by proxy contract.
 - Deployment is more expensive.
 - It makes things easy to maintain.
 
 ## **UUPS Proxy**
+#### [**EIP-1822: Universal Upgradeable Proxy Standard (UUPS)**](https://eips.ethereum.org/EIPS/eip-1822)
+Similar to transparent proxies, UUPS proxies are implemented using an [ERC1967Proxy](https://docs.openzeppelin.com/contracts/4.x/api/proxy#ERC1967Proxy) using the same delegateCall pattern. 
+Unlike transparent proxies, the logic for allowing upgrades can be implemented as needed for UUPS proxies.
+UUPS proxies help to establish a pattern for the upgrade which does not interfere with existing business rules. 
+
+***UUPS proxy upgradeability is handled by the implementation***, and can eventually be removed. 
 
 <br/>
 
 ![Nextra](../public/proxy4.avif)
 
+<Callout emoji="⚠️">
+  **Note:** This proxy is not by itself upgradeable. The implementation must include, alongside the contract's logic, all the code necessary to update the implementation's address that is stored at a specific slot in the proxy's storage space. 
+</Callout>
 
-<br/>
-
+#### Summary
 - uses the same delegate call pattern
 - places upgrade logic in the logic contract instead of the proxy itself
 - all functions defined on the logic contract
 - the proxy is much smaller in size, making deployments cheaper
 
+## **Multi-Facet Proxy**
 
+Smart contract systems that can be upgraded/extended after deployment, and have virtually no size limit. 
 
+***More technically,*** <br/>
+- **Diamonds** are a contract with external functions that are supplied by contracts called facets. <br/>
+- **Facets** are separate, independent contracts that can share internal functions, libraries, and state vars.
 
-## **Multi-Facet Proxy (Diamond Pattern)**
-
-Multi-Facet Proxies provide granular control of functionality by allowing the Proxy to add/remove/replace functions without impacting other logic.
+<Callout emoji="💎">
+The multi-facet proxy pattern is the Diamond pattern.
+</Callout>

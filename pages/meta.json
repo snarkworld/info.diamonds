@@ -1,10 +1,11 @@
 {
   "index": "Diamond Overview",
-  "diamondProxy": "Proxies",
-  "diamondPattern": "Diamond Pattern",
-  "diamondStorage": "Storage",
-  "diamondDeploy": "Diamond Deployment",
-  "diamondSecurity": "Security Considerations",
+  "diamondProxy": "Proxy Types",
+  "diamondPattern": "Diamond(Multi-Facet Proxy)",
+  "diamondStorage": "Storage Options",
+  "diamondDeploy": "Diamond Workflow",
+  "diamondSecurity": "Diamond Security",
+  "diamondTutorials": "Diamond Tutorials",
   "diamondProjects": "Diamond Projects",
   "diamondResources": "Resources"
 }

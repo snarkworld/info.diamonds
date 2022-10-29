@@ -6,6 +6,36 @@ Welcome to info.diamonds, an unofficial documentation site for Diamonds, the Mul
 
 ## dev log
 
+### 10/29/22
+
+### sections updated:
+
+- **Diamond Overview**
+    - Linked EIP in header
+    - Added Overview section with background
+    - Revised information
+- **Proxy Types - renamed**
+    - Revised information
+    - Added Transparent and UUPS
+    - Included EIP links
+- **Diamond(Multi-Facet Proxy) - renamed**
+    - Moved Iframe learning tool
+    - Revised information
+    - Added code examples
+        - Fallback Function
+        - Delegate Call
+        - Diamond Cut
+        - Diamond Loupe
+- **Storage Options - renamed**
+    - Revised Information
+- **Diamond Workflow - renamed**
+
+### sections added:
+
+- **Diamond Tutorials**
+- **Diamond Practice**
+- **Diamond Security**
+
 ### 10/22/22
 
 ### **sections** **updated**:
