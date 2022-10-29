@@ -1,4 +1,4 @@
-# **Diamond Deployment**
+# **Diamond Workflow**
 
 ## **Diamond Requirements**
 
@@ -24,10 +24,9 @@
 
 The diamond address is the address that users interact with. The diamond address does not change. Only facet addresses can change by using the `diamondCut` function, or other function.
 
-## **Deployment Workflow**
+## Create Diamond
 
-**1) Deploy DiamondInit**
-    - DiamondInit handles initiating state variables on deploy or upgrade <br/>
+## Create Facets
 **2) Deploy facets and set the ‘facetCuts’**
     - **Facets**
         - ***DiamondCut***
@@ -43,6 +42,9 @@ The diamond address is the address that users interact with. The diamond address
         ```
         
         - ‘**facetCuts**’ variable is FacetCut[] that contains functions added during Diamond deployment
+## Deploy DiamondInit
+**1) Deploy DiamondInit**
+    - DiamondInit handles initializing state variables on deploy or upgrade <br/>
 **3) Create function call for *DiamondInit*, used for deploy and upgrade**
     
     ```js
@@ -50,7 +52,10 @@ The diamond address is the address that users interact with. The diamond address
            ‘init’
             )
     ```
-    
+
+## Deploy DiamondCut
+## Deploy DiamondLoupe
+## Deploy Diamond
 **4) Set arguments for Diamond constructor**
     
     ```js
@@ -60,9 +65,16 @@ The diamond address is the address that users interact with. The diamond address
     				 calldata: functionCall
         }
     ```
-    
-**5) Deploy**
+    **5) Deploy**
     
     ```js
     Diamond.deploy(facetCuts, diamondArgs)
     ```
+## Upgrade Diamond
+
+
+
+
+    
+
+    
