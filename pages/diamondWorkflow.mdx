@@ -180,7 +180,7 @@ contract DiamondInit {
   console.log('DiamondInit deployed:', diamondInit.address)
 ```
 
-## **Create Function Call**
+### Create Function Call
 ```js
 // Creating a function call
 // This call gets executed during deployment and can also be executed in upgrades
@@ -190,7 +190,7 @@ let functionCall = diamondInit.interface.encodeFunctionData('init')
 ```
 
 ## **Deploy Facets**
-- #### **Deploy DiamondCut, DiamondLoup, etc**
+#### **Deploy DiamondCut, DiamondLoup, etc**
 ```js
      // Deploy facets and set the `facetCuts` variable
   console.log('')
