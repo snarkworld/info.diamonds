@@ -1,6 +1,17 @@
+import Callout from 'nextra-theme-docs/callout'
+
+
 # **Diamond Workflow**
 
 ## **Diamond Requirements**
+
+```js
+import { LibDiamond } from "./libraries/LibDiamond.sol";
+import { IDiamondCut } from "./interfaces/IDiamondCut.sol";
+import { IDiamondLoupe } from  "./interfaces/IDiamondLoupe.sol";
+import { IERC173 } from "./interfaces/IERC173.sol";
+import { IERC165} from "./interfaces/IERC165.sol";
+```
 
 **A diamond must implement the following:**
 1. A diamond contains a fallback function and can include immutable functions defined within it.
@@ -13,36 +24,119 @@
 6. All immutable functions must be emitted in the `DiamondCut` event as new functions added. Loupe functions must return information about immutable functions if they exist. The facet address for an immutable function is the diamond’s address. 
 7. Any attempt to delete or replace an immutable function must revert.
 
-### A diamond may implement the following:
-
-1. [EIP-165](https://eips.ethereum.org/EIPS/eip-165)’s `supportsInterface`. 
-2. If a diamond has the `diamondCut` function then the interface ID used for it is `IDiamondCut.diamondCut.selector`. 
-3. The interface ID used for the diamond loupe interface is 
-`IDiamondLoupe.facets.selector ^ `
-`IDiamondLoupe.facetFunctionSelectors.selector ^ IDiamondLoupe.facetAddresses.selector ^ `
-`IDiamondLoupe.facetAddress.selector`
-
+<Callout>
 The diamond address is the address that users interact with. The diamond address does not change. Only facet addresses can change by using the `diamondCut` function, or other function.
+</Callout>
 
-## Create Diamond
+## **Create Diamond**
 
-## Create Facets
+### Diamond Struct
+
+```js
+// This is used in diamond constructor
+// more arguments are added to this struct
+// this avoids stack too deep errors
+
+struct DiamondArgs {
+    address owner;
+    address init;
+    bytes initCalldata;
+}
+```
+
+### Diamond Contract
+
+```js
+/******************************************************************************\
+* Implementation of a diamond.
+/******************************************************************************/
+
+contract Diamond {    
+
+    constructor(IDiamondCut.FacetCut[] memory _diamondCut, DiamondArgs memory _args) payable {
+        LibDiamond.setContractOwner(_args.owner);
+        LibDiamond.diamondCut(_diamondCut, _args.init, _args.initCalldata);
+
+        // Code can be added here to perform actions and set state variables.
+    }
+
+    // Find facet for function that is called and execute the
+    // function if a facet is found and return any value.
+    fallback() external payable {
+        LibDiamond.DiamondStorage storage ds;
+        bytes32 position = LibDiamond.DIAMOND_STORAGE_POSITION;
+        // get diamond storage
+        assembly {
+            ds.slot := position
+        }
+        // get facet from function selector
+        address facet = ds.facetAddressAndSelectorPosition[msg.sig].facetAddress;
+        if(facet == address(0)) {
+            revert FunctionNotFound(msg.sig);
+        }
+        // Execute external function from facet using delegatecall and return any value.
+        assembly {
+            // copy function selector and any arguments
+            calldatacopy(0, 0, calldatasize())
+             // execute function call using the facet
+            let result := delegatecall(gas(), facet, 0, calldatasize(), 0, 0)
+            // get any return value
+            returndatacopy(0, 0, returndatasize())
+            // return any return value or error back to the caller
+            switch result
+                case 0 {
+                    revert(0, returndatasize())
+                }
+                default {
+                    return(0, returndatasize())
+                }
+        }
+    }
+
+    receive() external payable {}
+}
+```
+
+### Error Handling
+```js
+    // When no function exists for function called
+
+    error FunctionNotFound(bytes4 _functionSelector);
+```
+
+## **Create Facets**
 **Deploy facets and set the ‘facetCuts’**
-    - **Facets**
-        - ***DiamondCut***
-        - ***DiamondLoupe***
         
-        ```js
+```js
+    async function deployFacet() {
+        const FacetA = await ethers.getContractFactory('FacetA');
+        const facetA = await FacetA.deploy();
+        await facetA.deployed();
+        console.log('facetA deployed:', facetA.address);
+
+        return facetA.address;
+    }
+
+    // We recommend this pattern to be able to use async/await everywhere
+    // and properly handle errors.
+
+    deployFacet().catch((error) => {
+        console.error(error);
+        process.exitCode = 1;
+    });
         const facetCuts = []
         facetCuts.push({
                facetAddress: facet.address,
                action: FacetCutAction.Add,
                functionSelectors: getSelectors(facet)
               })
-        ```
-        
-        - ‘**facetCuts**’ variable is FacetCut[] that contains functions added during Diamond deployment
-## Deploy DiamondInit
+```
+
+<Callout>
+    **facetCuts** variable is facetCut[] that contains functions added during Diamond deployment
+</Callout>
+
+## **Deploy DiamondInit**
 **Deploy DiamondInit**
     - DiamondInit handles initializing state variables on deploy or upgrade <br/>
 **Create function call for *DiamondInit*, used for deploy and upgrade**
@@ -53,9 +147,9 @@ The diamond address is the address that users interact with. The diamond address
             )
     ```
 
-## Deploy DiamondCut
-## Deploy DiamondLoupe
-## Deploy Diamond
+## **Deploy DiamondCut**
+## **Deploy DiamondLoupe**
+## **Deploy Diamond**
 **Set arguments for Diamond constructor**
     
     ```js
@@ -70,7 +164,7 @@ The diamond address is the address that users interact with. The diamond address
     ```js
     Diamond.deploy(facetCuts, diamondArgs)
     ```
-## Upgrade Diamond
+## **Upgrade Diamond**
 
 
 
