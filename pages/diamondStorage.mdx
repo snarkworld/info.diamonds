@@ -53,10 +53,4 @@ A function signature is the name of a function and its parameter types.
 ## **App Storage**
 
 - **AppStorage enforces a naming/access convention *makes code more readable and prevents name clashes* of state variables.**
-    - The AppStorage struct contains state variables that will be shared between facets.
-        - To use it a facet imports the AppStorage struct and declares `AppStorage internal s;` as the Facets first state variable
-        - The facet then accesses all state variables in functions via the struct like this: `s.myFirstVariable`, `s.mySecondVariable`
-- *‘AppStorage internal s;’* should be declared as the first state variable in all facets using it
-    - position 0 in the storage address space allowing storage data to line up between facets
-- Add more state variables to the end of the AppStorage struct or use Diamond Storage to avoid address clashing
-    - AppStorage can be used with Diamond Storage in the same facet
+   
