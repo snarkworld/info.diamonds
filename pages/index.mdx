@@ -29,19 +29,18 @@ This proposal standardizes diamonds, which are modular smart contract systems th
 
 - Diamonds can be upgradeable or immutable.
 - Diamonds overcome the maximum contract size limit of 24KB.
+- Diamonds provide a single address with the functionality of multiple contracts (facets) that are independent from each other but can share internal functions, libraries and state variables.
+- Diamonds can add, replace and remove multiple external functions atomically (in the same transaction).
 - Diamonds can be large but modular because they are compartmented with facets.
 - Diamonds are optimized to save gas, state variables are shared between facets.
-- Diamonds can add, replace and remove multiple external functions atomically (in the same transaction).
-- Diamonds provide a single address with the functionality of multiple contracts (facets) that are independent from each other but can share internal functions, libraries and state variables.
-- Contract architectures that call multiple contracts in a single transaction can save gas by condensing those contracts into a single diamond and accessing state variables directly.
-- Decentralized Autonomous Organizations (DAOs), multisig contracts and other governance systems can be used to upgrade diamonds.
 
 ## **Additional Benefits**
-
+- Decentralized Autonomous Organizations (DAOs), multisig contracts and other governance systems can be used to upgrade diamonds.
 - Diamonds can be created from already deployed, existing onchain contracts.
 - Diamonds enable zero, partial or full diamond immutability as desired, and when desired.
 - Diamonds emit an event that shows what functions are added, replaced and removed.
 - Increase trust over time by showing all changes made to a diamond.
 - Upgrade diamonds to fix bugs, add functionality and implement new standards.
+- Save gas by condensing contracts into a single diamond and accessing state variables directly.
 - Save gas by converting external to internal functions, by sharing internal functions between facets.
 - Save gas by creating external functions for gas-optimized specific use cases, such as bulk transfers.
