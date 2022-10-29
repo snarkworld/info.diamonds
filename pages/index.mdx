@@ -31,7 +31,6 @@ This proposal standardizes diamonds, which are modular smart contract systems th
 - Diamonds overcome the maximum contract size limit of 24KB.
 - Diamonds can be large but modular because they are compartmented with facets.
 - Diamonds are optimized to save gas, state variables are shared between facets.
-- Diamonds make it possible to add/replace/remove functions w/o needing to redeploy.
 - Diamonds can add, replace and remove multiple external functions atomically (in the same transaction).
 - Diamonds provide a single address with the functionality of multiple contracts (facets) that are independent from each other but can share internal functions, libraries and state variables.
 - Contract architectures that call multiple contracts in a single transaction can save gas by condensing those contracts into a single diamond and accessing state variables directly.
