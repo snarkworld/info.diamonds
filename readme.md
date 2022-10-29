@@ -4,6 +4,38 @@
 ### **EIP 2535: Diamonds, Multi-Facet Proxy**
 Welcome to info.diamonds, an unofficial documentation site for Diamonds, the Multi-Facet Proxy (EIP 2535).
 
+## dev log
+
+### 10/22/22
+
+### **sections** **updated**:
+
+- **Diamond Overview**
+    - Organized paragraph layout
+    - Added headers to sub-sections
+- **Proxies**
+    - Revised proxy examples and definitions
+    - Added Transparent and UUPs
+    - Included new diagrams
+- **Diamond Pattern**
+    - added Iframe learning tool
+    - added diagram of multi-facet proxy
+    - revised sub-sections to include code (fallback function)
+- **Resources**
+    - added Awesome Diamonds from Nick Mudge Github
+    - re-formatted section
+
+### **sections added:**
+
+- Security Considerations
+- Diamond Projects
+
+### 10/29/22
+
+### sections updated:
+
+### sections added:
+
 # **Resources**
 
 ## **Official**
