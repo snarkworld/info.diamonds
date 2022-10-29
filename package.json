@@ -1,7 +1,7 @@
 {
   "name": "info.diamonds",
   "version": "1.0.0",
-  "description": "Expanding encyclopedia to discover, design, and deploy Diamond contracts.",
+  "description": "Resource guide for Diamond, Multi-Facet Proxy smart contract systems.",
   "main": "index.js",
   "scripts": {
     "dev": "next",
