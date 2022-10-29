@@ -5,14 +5,6 @@ import Callout from 'nextra-theme-docs/callout'
 
 ## **Diamond Requirements**
 
-```js
-import { LibDiamond } from "./libraries/LibDiamond.sol";
-import { IDiamondCut } from "./interfaces/IDiamondCut.sol";
-import { IDiamondLoupe } from  "./interfaces/IDiamondLoupe.sol";
-import { IERC173 } from "./interfaces/IERC173.sol";
-import { IERC165} from "./interfaces/IERC165.sol";
-```
-
 **A diamond must implement the following:**
 1. A diamond contains a fallback function and can include immutable functions defined within it.
 2. A diamond associates function selectors with facets.
@@ -24,11 +16,23 @@ import { IERC165} from "./interfaces/IERC165.sol";
 6. All immutable functions must be emitted in the `DiamondCut` event as new functions added. Loupe functions must return information about immutable functions if they exist. The facet address for an immutable function is the diamond’s address. 
 7. Any attempt to delete or replace an immutable function must revert.
 
+
 <Callout>
 The diamond address is the address that users interact with. The diamond address does not change. Only facet addresses can change by using the `diamondCut` function, or other function.
 </Callout>
 
 ## **Create Diamond**
+
+### Libraries and Interfaces
+```js
+//Libraries and Interfaces used by Diamond
+
+import { LibDiamond } from "./libraries/LibDiamond.sol";
+import { IDiamondCut } from "./interfaces/IDiamondCut.sol";
+import { IDiamondLoupe } from  "./interfaces/IDiamondLoupe.sol";
+import { IERC173 } from "./interfaces/IERC173.sol";
+import { IERC165} from "./interfaces/IERC165.sol";
+```
 
 ### Diamond Struct
 
@@ -105,64 +109,152 @@ contract Diamond {
 ```
 
 ## **Create Facets**
-**Deploy facets and set the ‘facetCuts’**
-        
-```js
-    async function deployFacet() {
-        const FacetA = await ethers.getContractFactory('FacetA');
-        const facetA = await FacetA.deploy();
-        await facetA.deployed();
-        console.log('facetA deployed:', facetA.address);
-
-        return facetA.address;
-    }
-
-    // We recommend this pattern to be able to use async/await everywhere
-    // and properly handle errors.
-
-    deployFacet().catch((error) => {
-        console.error(error);
-        process.exitCode = 1;
-    });
-        const facetCuts = []
-        facetCuts.push({
-               facetAddress: facet.address,
-               action: FacetCutAction.Add,
-               functionSelectors: getSelectors(facet)
-              })
-```
+    
 
 <Callout>
     **facetCuts** variable is facetCut[] that contains functions added during Diamond deployment
 </Callout>
 
+```js
+/******************************************************************************\
+* EIP-2535 Diamonds: https://eips.ethereum.org/EIPS/eip-2535
+/******************************************************************************/
+
+import { IDiamondCut } from "../interfaces/IDiamondCut.sol";
+import { LibDiamond } from "../libraries/LibDiamond.sol";
+
+// Remember to add the loupe functions from DiamondLoupeFacet to the diamond.
+// The loupe functions are required by the EIP2535 Diamonds standard
+
+contract DiamondCutFacet is IDiamondCut {
+    /// @notice Add/replace/remove any number of functions and optionally execute
+    ///         a function with delegatecall
+    /// @param _diamondCut Contains the facet addresses and function selectors
+    /// @param _init The address of the contract or facet to execute _calldata
+    /// @param _calldata A function call, including function selector and arguments
+    ///                  _calldata is executed with delegatecall on _init
+    function diamondCut(
+        FacetCut[] calldata _diamondCut,
+        address _init,
+        bytes calldata _calldata
+    ) external override {
+        LibDiamond.enforceIsContractOwner();
+        LibDiamond.diamondCut(_diamondCut, _init, _calldata);
+    }
+}
+```
+
+## **Create DiamondInit**
+Use the init function to initialize state variables
+```js
+contract DiamondInit {    
+
+    // You can add parameters to this function in order to pass in 
+    // data to set your own state variables
+    function init() external {
+        // adding ERC165 data
+        LibDiamond.DiamondStorage storage ds = LibDiamond.diamondStorage();
+        ds.supportedInterfaces[type(IERC165).interfaceId] = true;
+        ds.supportedInterfaces[type(IDiamondCut).interfaceId] = true;
+        ds.supportedInterfaces[type(IDiamondLoupe).interfaceId] = true;
+        ds.supportedInterfaces[type(IERC173).interfaceId] = true;
+
+        // add your own state variables 
+        // EIP-2535 specifies that the `diamondCut` function takes two optional 
+        // arguments: address _init and bytes calldata _calldata
+        // These arguments are used to execute an arbitrary function using delegatecall
+        // in order to set state variables in the diamond during deployment or an upgrade
+        // More info here: https://eips.ethereum.org/EIPS/eip-2535#diamond-interface 
+    }
+}
+```
 ## **Deploy DiamondInit**
-**Deploy DiamondInit**
-    - DiamondInit handles initializing state variables on deploy or upgrade <br/>
+```js
+    // Deploy DiamondInit
+// DiamondInit provides a function that is called when the diamond is upgraded or deployed to initialize state variables
+// Read about how the diamondCut function works in the EIP2535 Diamonds standard
+
+  const DiamondInit = await ethers.getContractFactory('DiamondInit')
+  const diamondInit = await DiamondInit.deploy()
+  await diamondInit.deployed()
+  console.log('DiamondInit deployed:', diamondInit.address)
+```
 **Create function call for *DiamondInit*, used for deploy and upgrade**
     
     ```js
-    let functionCall = diamondInit.interface.encodeFunctionData(
-           ‘init’
-            )
+    let functionCall = diamondInit.interface.encodeFunctionData(‘init’)
     ```
 
-## **Deploy DiamondCut**
-## **Deploy DiamondLoupe**
+## **Deploy Facets**
+- #### **Deploy DiamondCut, DiamondLoup, etc**
+```js
+     // Deploy facets and set the `facetCuts` variable
+  console.log('')
+  console.log('Deploying facets')
+  const FacetNames = [
+    'DiamondCutFacet',
+    'DiamondLoupeFacet',
+    'OwnershipFacet'
+  ]
+  // The `facetCuts` variable is the FacetCut[] that contains the functions to add during diamond deployment
+  const facetCuts = []
+  for (const FacetName of FacetNames) {
+    const Facet = await ethers.getContractFactory(FacetName)
+    const facet = await Facet.deploy()
+    await facet.deployed()
+    console.log(`${FacetName} deployed: ${facet.address}`)
+    facetCuts.push({
+      facetAddress: facet.address,
+      action: FacetCutAction.Add,
+      functionSelectors: getSelectors(facet)
+    })
+  }
+```
+## **Creat Function Call**
+```js
+// Creating a function call
+  // This call gets executed during deployment and can also be executed in upgrades
+  // It is executed with delegatecall on the DiamondInit address.
+  let functionCall = diamondInit.interface.encodeFunctionData('init')
+```
+
 ## **Deploy Diamond**
 **Set arguments for Diamond constructor**
     
     ```js
+    // Setting arguments that will be used in the diamond constructor
     const diamondArgs = {
-             owner: ContractOwner.address
-             init:init 
-    				 calldata: functionCall
+            owner: ContractOwner.address
+            init:init 
+    		calldata: functionCall
         }
     ```
     **Deploy**
     
     ```js
-    Diamond.deploy(facetCuts, diamondArgs)
+    // deploy Diamond
+    const Diamond = await ethers.getContractFactory('Diamond')
+    const diamond = await Diamond.deploy(facetCuts, diamondArgs)
+    await diamond.deployed()
+    console.log()
+    console.log('Diamond deployed:', diamond.address)
+
+    // returning the address of the diamond
+    return diamond.address
+    }
+    // We recommend this pattern to be able to use async/await everywhere
+    // and properly handle errors.
+    if (require.main === module) {
+     deployDiamond()
+        .then(() => process.exit(0))
+        .catch(error => {
+      console.error(error)
+      process.exit(1)
+    })
+    }
+
+    exports.deployDiamond = deployDiamond
+
     ```
 ## **Upgrade Diamond**
 
