@@ -179,11 +179,15 @@ contract DiamondInit {
   await diamondInit.deployed()
   console.log('DiamondInit deployed:', diamondInit.address)
 ```
-**Create function call for *DiamondInit*, used for deploy and upgrade**
-    
-    ```js
-    let functionCall = diamondInit.interface.encodeFunctionData(‘init’)
-    ```
+
+## **Create Function Call**
+```js
+// Creating a function call
+// This call gets executed during deployment and can also be executed in upgrades
+// It is executed with delegatecall on the DiamondInit address.
+
+let functionCall = diamondInit.interface.encodeFunctionData('init')
+```
 
 ## **Deploy Facets**
 - #### **Deploy DiamondCut, DiamondLoup, etc**
@@ -209,13 +213,6 @@ contract DiamondInit {
       functionSelectors: getSelectors(facet)
     })
   }
-```
-## **Creat Function Call**
-```js
-// Creating a function call
-  // This call gets executed during deployment and can also be executed in upgrades
-  // It is executed with delegatecall on the DiamondInit address.
-  let functionCall = diamondInit.interface.encodeFunctionData('init')
 ```
 
 ## **Deploy Diamond**
