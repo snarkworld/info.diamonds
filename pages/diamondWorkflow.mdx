@@ -27,7 +27,7 @@ The diamond address is the address that users interact with. The diamond address
 ## Create Diamond
 
 ## Create Facets
-**2) Deploy facets and set the ‘facetCuts’**
+**Deploy facets and set the ‘facetCuts’**
     - **Facets**
         - ***DiamondCut***
         - ***DiamondLoupe***
@@ -43,9 +43,9 @@ The diamond address is the address that users interact with. The diamond address
         
         - ‘**facetCuts**’ variable is FacetCut[] that contains functions added during Diamond deployment
 ## Deploy DiamondInit
-**1) Deploy DiamondInit**
+**Deploy DiamondInit**
     - DiamondInit handles initializing state variables on deploy or upgrade <br/>
-**3) Create function call for *DiamondInit*, used for deploy and upgrade**
+**Create function call for *DiamondInit*, used for deploy and upgrade**
     
     ```js
     let functionCall = diamondInit.interface.encodeFunctionData(
@@ -56,7 +56,7 @@ The diamond address is the address that users interact with. The diamond address
 ## Deploy DiamondCut
 ## Deploy DiamondLoupe
 ## Deploy Diamond
-**4) Set arguments for Diamond constructor**
+**Set arguments for Diamond constructor**
     
     ```js
     const diamondArgs = {
@@ -65,7 +65,7 @@ The diamond address is the address that users interact with. The diamond address
     				 calldata: functionCall
         }
     ```
-    **5) Deploy**
+    **Deploy**
     
     ```js
     Diamond.deploy(facetCuts, diamondArgs)
