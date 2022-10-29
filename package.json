@@ -1,6 +1,6 @@
 {
   "name": "info.diamonds",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Resource guide for Diamond, Multi-Facet Proxy smart contract systems.",
   "main": "index.js",
   "scripts": {
