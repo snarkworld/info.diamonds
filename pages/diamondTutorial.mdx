@@ -12,13 +12,13 @@ import Callout from 'nextra-theme-docs/callout'
 
 **1) Clone the hardhat-1-diamond repo from Nick Mudge**
 
-```solidity
+```js
 git clone [https://github.com/mudgen/diamond-1-hardhat](https://github.com/mudgen/diamond-1-hardhat)
 ```
 
 **2) Change to the new directory**
 
-```solidity
+```js
 cd diamond-1-hardhat
 ```
 
@@ -43,13 +43,13 @@ Automatically verify your smatcontracts on etherscan by installing the extension
 
 - add Etherscan plugin import to allow for automatic smart contract verification
     
-    ```solidity
+    ```js
     require("@nomiclabs/hardhat-etherscan");
     ```
     
 - add module exports
     
-    ```solidity
+    ```js
     networks: {
         goerli: {
             url: "YOUR_QUICKNODE_HTTP_ENDPOINT",
@@ -67,20 +67,20 @@ Automatically verify your smatcontracts on etherscan by installing the extension
 
 - Compile code
     
-    ```solidity
+    ```js
     npx hardhat compile
     ```
     
 - Deploy Diamond
     
-    ```solidity
+    ```js
     npx hardhat run scripts/deploy.js --network goerli
     ```
     
 
 **6) Create script for facet deployment**
 
-```solidity
+```js
 // Deploy facets and set the `facetCuts` variable
   console.log('')
   console.log('Deploying facets')
@@ -106,7 +106,7 @@ Automatically verify your smatcontracts on etherscan by installing the extension
 
 **7) Deploy Facet**
 
-```solidity
+```js
 npx hardhat run scripts/deploy.js --network goerli
 ```
 
@@ -114,7 +114,7 @@ npx hardhat run scripts/deploy.js --network goerli
 
 - Run the following command with your FacetA smart contract address:
 
-```solidity
+```js
 npx hardhat verify --network goerli DEPLOYED_CONTRACT_ADDRESS
 ```
 
