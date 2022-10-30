@@ -4,7 +4,7 @@ export default {
   titleSuffix: ' – 💎',
   logo: (
     <>
-      <span className="mr-2 font-extrabold hidden md:inline">Info.Diamonds</span>
+      <span className="mr-2 font-extrabold hidden md:inline">💎 info.diamonds</span>
       <span className="text-gray-600 font-normal hidden md:inline">
       </span>
     </>
