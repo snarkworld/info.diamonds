@@ -19,11 +19,11 @@ export default {
       <meta name="og:description" content="Resource guide for Diamond, Multi-Facet Proxy smart contract systems." />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:image" content="https://info.diamonds" />
-      <meta name="twitter:site:domain" content="info.diamonds" />
+      <meta name="twitter:site:domain" content="💎 info.diamonds" />
       <meta name="twitter:url" content="https:/info.diamonds" />
-      <meta name="og:title" content="info.diamonds: Resource guide for Diamond, Multi-Facet Proxy smart contract systems." />
+      <meta name="og:title" content="💎 info.diamonds: Resource guide for Diamond, Multi-Facet Proxy smart contract systems." />
       <meta name="og:image" content="https://info.diamonds" />
-      <meta name="apple-mobile-web-app-title" content="info.diamonds" />
+      <meta name="apple-mobile-web-app-title" content="💎 info.diamonds" />
       <link
         rel="apple-touch-icon"
         sizes="180x180"
