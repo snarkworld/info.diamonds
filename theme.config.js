@@ -15,13 +15,13 @@ export default {
       <meta name="theme-color" content="#ffffff" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Language" content="en" />
-      <meta name="description" content="info.diamonds: guide to diamond contracts" />
-      <meta name="og:description" content="info.diamonds: guide to diamond contracts" />
+      <meta name="description" content="Resource guide for Diamond, Multi-Facet Proxy smart contract systems." />
+      <meta name="og:description" content="Resource guide for Diamond, Multi-Facet Proxy smart contract systems." />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:image" content="https://info.diamonds" />
       <meta name="twitter:site:domain" content="info.diamonds" />
       <meta name="twitter:url" content="https:/info.diamonds" />
-      <meta name="og:title" content="info.diamonds: guide to diamond contracts" />
+      <meta name="og:title" content="info.diamonds: Resource guide for Diamond, Multi-Facet Proxy smart contract systems." />
       <meta name="og:image" content="https://info.diamonds" />
       <meta name="apple-mobile-web-app-title" content="info.diamonds" />
       <link
