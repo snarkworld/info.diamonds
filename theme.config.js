@@ -60,6 +60,6 @@ export default {
   prevLinks: true,
   nextLinks: true,
   footer: true,
-  footerText: <> MIT {new Date().getFullYear()} © info.diamonds.</>,
+  footerText: <> MIT {new Date().getFullYear()} © info.diamonds 💎</>,
   unstable_faviconGlyph: '💎',
 }
