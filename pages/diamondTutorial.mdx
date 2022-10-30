@@ -12,21 +12,21 @@ import Callout from 'nextra-theme-docs/callout'
 
 **1) Clone the hardhat-1-diamond repo from Nick Mudge**
 
-```js
-git clone [https://github.com/mudgen/diamond-1-hardhat](https://github.com/mudgen/diamond-1-hardhat)
-```
+    ```js
+    git clone [https://github.com/mudgen/diamond-1-hardhat](https://github.com/mudgen/diamond-1-hardhat)
+    ```
 
 **2) Change to the new directory**
 
-```js
-cd diamond-1-hardhat
-```
+    ```js
+    cd diamond-1-hardhat
+    ```
 
 **3) Install dependencies**
 
-```js
-npm install
-```
+    ```js
+    npm install
+    ```
 
 <Callout>
 Automatically verify your smatcontracts on etherscan by installing the extension with-
@@ -80,8 +80,8 @@ Automatically verify your smatcontracts on etherscan by installing the extension
 
 **6) Create script for facet deployment**
 
-```js
-// Deploy facets and set the `facetCuts` variable
+    ```js
+    // Deploy facets and set the `facetCuts` variable
   console.log('')
   console.log('Deploying facets')
   const FacetNames = [
@@ -102,20 +102,20 @@ Automatically verify your smatcontracts on etherscan by installing the extension
       functionSelectors: getSelectors(facet)
     })
   }
-```
+    ```
 
 **7) Deploy Facet**
 
-```js
-npx hardhat run scripts/deploy.js --network goerli
-```
+    ```js
+    npx hardhat run scripts/deploy.js --network goerli
+    ```
 
 **8) Verify Contract**
 
 - Run the following command with your FacetA smart contract address:
 
-```js
-npx hardhat verify --network goerli DEPLOYED_CONTRACT_ADDRESS
-```
+    ```js
+    npx hardhat verify --network goerli DEPLOYED_CONTRACT_ADDRESS
+    ```
 
 **9) Diamond Cut**
