@@ -11,7 +11,7 @@ The Diamond is the proxy, when an external function is called and executed the f
     3. Diamond’s fallback function and `delegatecall`enable a diamond to execute a facet’s function as if it was implemented by the diamond itself.
 
 
-<Callout emoji="📌">
+<Callout emoji="💎">
   `msg.sender` and `msg.value` values do not change, only the diamond’s storage is read/written to.
 </Callout>
 
@@ -89,7 +89,7 @@ interface IDiamond {
 }
 ```
 
-<Callout>
+<Callout emoji='💎'>
 `diamondCut` is specified for the purpose of interoperability. Diamond tools, software and user-interfaces should expect and use the standard `diamondCut` function.
 </Callout>
 
@@ -163,6 +163,6 @@ The loupe functions can be used for many things including:
 7. To be used by user interfaces to show information about diamonds.
 8. To be used by user interfaces to enable users to call functions on diamonds.
 
-<Callout>
+<Callout emoji='💎'>
 [louper.dev](https://louper.dev/) is a website that displays info on diamonds and executing their functions.
 </Callout>
