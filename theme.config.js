@@ -1,7 +1,7 @@
 export default {
   github: 'https://github.com/gweiworld',
   docsRepositoryBase: 'https://github.com/gweiworld/info.diamonds',
-  titleSuffix: ' – ',
+  titleSuffix: ' – 💎',
   logo: (
     <>
       <span className="mr-2 font-extrabold hidden md:inline">Info.Diamonds</span>
