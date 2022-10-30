@@ -82,26 +82,26 @@ Automatically verify your smatcontracts on etherscan by installing the extension
 
     ```js
     // Deploy facets and set the `facetCuts` variable
-  console.log('')
-  console.log('Deploying facets')
-  const FacetNames = [
+    console.log('')
+    console.log('Deploying facets')
+    const FacetNames = [
     'DiamondCutFacet',
     'DiamondLoupeFacet',
     'OwnershipFacet'
-  ]
-  // The `facetCuts` variable is the FacetCut[] that contains the functions to add during diamond deployment
-  const facetCuts = []
-  for (const FacetName of FacetNames) {
-    const Facet = await ethers.getContractFactory(FacetName)
-    const facet = await Facet.deploy()
-    await facet.deployed()
-    console.log(`${FacetName} deployed: ${facet.address}`)
-    facetCuts.push({
-      facetAddress: facet.address,
-      action: FacetCutAction.Add,
-      functionSelectors: getSelectors(facet)
-    })
-  }
+    ]
+    // The `facetCuts` variable is the FacetCut[] that contains the functions to add during diamond deployment
+    const facetCuts = []
+    for (const FacetName of FacetNames) {
+        const Facet = await ethers.getContractFactory(FacetName)
+        const facet = await Facet.deploy()
+        await facet.deployed()
+        console.log(`${FacetName} deployed: ${facet.address}`)
+        facetCuts.push({
+            facetAddress: facet.address,
+            action: FacetCutAction.Add,
+            functionSelectors: getSelectors(facet)
+        })
+    }
     ```
 
 **7) Deploy Facet**
@@ -112,7 +112,7 @@ Automatically verify your smatcontracts on etherscan by installing the extension
 
 **8) Verify Contract**
 
-- Run the following command with your FacetA smart contract address:
+- Run the following command with your Facet smart contract address:
 
     ```js
     npx hardhat verify --network goerli DEPLOYED_CONTRACT_ADDRESS
