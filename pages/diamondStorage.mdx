@@ -49,4 +49,73 @@ If this is not done properly, issues such as storage clashes could occur.
 ## **App Storage**
 
 - **AppStorage enforces a naming/access convention *makes code more readable and prevents name clashes* of state variables.**
+The pattern works in the following way:
+
+1) Define a struct called AppStorage that contains all the state variables specific to your application and that you plan to share with different facets. Store AppStorage in a file. 
+Any of your facets can now import this file to access the state variables.
    
+        ```js
+        // AppStorage.sol
+        struct AppStorage {
+        uint256 secondVar;
+        uint256 firstVar;
+        uint256 lastVar;
+        ...
+        }
+        ```
+
+2) In a facet that imports the AppStorage struct declare an AppStorage state variable called s.
+This should be the only state variable declared in the facet. Here's an example:
+
+        ```js
+        import "./AppStorage.sol"
+
+        contract StakingFacet {
+        AppStorage internal s;
+        ...
+        ```
+
+Now in your facet you can access all the state variables in AppStorage by prepending state variables with s.. Here's a simple example:
+
+    ```js
+        import "./AppStorage.sol"
+
+        contract StakingFacet {
+        AppStorage internal s;
+
+        function myFacetFunction() external {
+        s.lastVar = s.firstVar + s.secondVar;
+        }
+    ```
+
+This is a very nice convention because it makes state variables concise, easy to access, and it distinguishes state variables from local variables and prevents name clashes/shadowing with local variables and function names. It helps identify and make explicit state variables in a convenient and concise way. It is also a little more gas efficient than diamond storage access.
+
+Since AppStorage s is the first and only state variable declared in facets its position in contract storage is 0. This fact can be used to access AppStorage in Solidity libraries using diamond storage access. Here's an example of that:
+
+    ```js
+
+        library MyLib {
+            function appStorage() 
+            internal 
+            pure 
+            returns (AppStorage storage ds) 
+        {    
+            assembly {
+                ds.slot := 0
+            }
+        }
+
+        function someFunction() internal {
+            AppStorage storage s = appStorage();
+            ... do stuff
+        }
+        }
+    ```
+
+`AppStorage s` can be declared as the one and only state variable in facets or it can be declared in a contract that facets inherit.
+AppStorage won't work if state variables are declared outside of AppStorage and outside of Diamond Storage. 
+It is a common error for a facet to inherit a contract that declares state variables outside AppStorage and Diamond Storage. 
+This causes a misalignment of state variables.
+
+One downside is that state variables can't be declared public in structs so getter functions can't automatically be created this way. 
+But I think it is better anyway to make your own getter functions for state variables because its more explicit.
